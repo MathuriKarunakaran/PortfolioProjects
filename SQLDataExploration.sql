@@ -1,18 +1,22 @@
+/*
+Covid 19 Data Exploration 
+
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
+*/
 Select *
 From CovidDeaths
 Where continent is not null
 Order by 3,4
 
-Select * 
-From CovidVaccinations
-Order by 3,4
+-- Select Data that we will be starting with
 
 Select location, date, total_cases, new_cases, total_deaths, population
 From CovidDeaths
 Where continent is not null
 Order by 1,2
 
---Looking at Total Cases vs Total Deaths
+-- Look at Total Cases vs Total Deaths
 -- Shows the likelihood of dying if you contract COVID in the United Kingdom
 
 Select location, date, total_cases, total_deaths, (Convert(float,total_deaths)/Convert(float,total_cases))*100 as DeathPercentage
@@ -21,7 +25,7 @@ where location like '%Kingdom%'
 and continent is not null
 Order by 1,2
 
--- Looking at Total Cases vs Population 
+-- Look at Total Cases vs Population 
 -- Shows what percentage of UK population got COVID
 
 Select location, date, total_cases, population, (Convert(float,total_cases)/population)*100 as PercentPopulationInfected
@@ -30,7 +34,7 @@ where location like '%Kingdom%'
 and continent is not null
 Order by 1,2
 
--- Looking at countries with highest infection rate compared to population
+-- Look at countries with highest infection rate compared to population
 
 Select location, population, MAX(total_cases) as HighestInfectionCount, Max((Convert(float,total_cases)/population))*100 as PercentPopulationInfected
 From CovidDeaths
@@ -39,7 +43,7 @@ Where continent is not null
 Group by location, population
 Order by PercentPopulationInfected desc
 
--- Looking at Countries with highest death count per population
+-- Look at Countries with highest death count per population
 
 Select location, MAX(Convert(float,total_deaths)) as TotalDeathCount
 From CovidDeaths
@@ -48,7 +52,7 @@ Where continent is not null
 Group by location
 Order by TotalDeathCount desc
 
--- Looking at Continents with highest death count per population 
+-- Look at Continents with highest death count per population 
 
 Select location, MAX(Convert(float,total_deaths)) as TotalDeathCount
 From CovidDeaths
