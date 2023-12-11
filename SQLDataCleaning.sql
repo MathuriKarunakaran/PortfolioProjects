@@ -1,11 +1,11 @@
--- Cleaning Data in SQL Queries
+-- Comprehensive data cleaning in SQL
 
 Select * 
 From NashvilleHousing
 
 
 	
--- Change SaleDate Format
+-- Converted 'SaleDate' column to a standard date format
 
 Select SaleDate, CONVERT(Date,SaleDate) 
 From NashvilleHousing
@@ -18,7 +18,7 @@ ALTER COLUMN SaleDate DATE
 
 
 	
--- Populate PropertyAddress Date
+-- Populated missing PropertyAddress data
 
 Select *
 From NashvilleHousing
@@ -126,7 +126,7 @@ SET SoldAsVacant = Case When SoldAsVacant = 'Y' THEN 'Yes'
 
 
 
--- Remove Duplicates
+-- Identified and removed duplicates
 
 WITH RowNumCTE AS(
 Select *,
@@ -169,7 +169,7 @@ Where run_num > 1
 
 
 
--- Delete Unused Columns (Property Address, Owner Address and TaxDistrict)
+-- Delete unused columns (Property Address, Owner Address and TaxDistrict)
 
 ALTER TABLE NashvilleHousing 
 DROP COLUMN  PropertyAddress,OwnerAddress, TaxDistrict
