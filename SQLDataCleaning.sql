@@ -3,6 +3,8 @@
 Select * 
 From NashvilleHousing
 
+
+	
 -- Change SaleDate Format
 
 Select SaleDate, CONVERT(Date,SaleDate) 
@@ -15,6 +17,7 @@ ALTER TABLE NashvilleHousing
 ALTER COLUMN SaleDate DATE
 
 
+	
 -- Populate PropertyAddress Date
 
 Select *
@@ -38,6 +41,7 @@ Join NashvilleHousing b
 where a.PropertyAddress is null
 
 
+	
 -- Breaking Property Address into Individual Columns (Address, City)
 
 
@@ -48,7 +52,6 @@ Select
 SUBSTRING (PropertyAddress,1, CHARINDEX(',',PropertyAddress)-1 ) as Address
 , SUBSTRING (PropertyAddress, CHARINDEX(',',PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
 From NashvilleHousing
-
 
 ALTER TABLE NashvilleHousing 
 Add PropertySplitAddress Nvarchar(255)
@@ -66,6 +69,7 @@ Select *
 From NashvilleHousing
 
 
+	
 -- Breaking Owner Address into Individual Columns (Address, City, State)
 
 Select OwnerAddress
@@ -95,11 +99,11 @@ Add OwnerSplitState Nvarchar(255)
 Update NashvilleHousing
 SET OwnerSplitState = PARSENAME (Replace(OwnerAddress,',','.'),1)
 
-
 Select * 
 From NashvilleHousing
 
 
+	
 -- Change Y and N to Yes and No in "Sold as Vacant" field
 
 Select Distinct(SoldAsVacant), COUNT(SoldAsVacant)
@@ -124,7 +128,6 @@ SET SoldAsVacant = Case When SoldAsVacant = 'Y' THEN 'Yes'
 
 -- Remove Duplicates
 
-
 WITH RowNumCTE AS(
 Select *,
 	ROW_NUMBER() Over(
@@ -143,7 +146,6 @@ Select*
 From RowNumCTE
 Where run_num > 1
 Order by PropertyAddress
-
 
 
 WITH RowNumCTE AS(
@@ -174,3 +176,4 @@ DROP COLUMN  PropertyAddress,OwnerAddress, TaxDistrict
 
 Select * 
 From NashvilleHousing
+
